@@ -39,7 +39,5 @@
             Margin="5"
             Content="Start with Windows"
             IsChecked="{Binding StartWithWindows}" />
-
-
     </StackPanel>
 </Window>

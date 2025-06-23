@@ -16,7 +16,7 @@ namespace ShufflePaper
         {
             _notifyIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application,
+                Icon = new Icon("Assets/app.ico"),
                 Text = "ShufflePaper",
                 Visible = true
             };
@@ -41,5 +41,6 @@ namespace ShufflePaper
         {
             _notifyIcon.Dispose();
         }
+
     }
 }
