@@ -1,6 +1,6 @@
 # ShufflePaper  
 
-A lightweight Windows tray app that randomizes desktop wallpaper from a selected folder. Nothing too special, I just couldn't find one that did exactly what I needed.  
+A lightweight Windows tray app that randomizes desktop wallpaper from a selected folder. Nothing special, I just couldn't find an app that did exactly what I needed.  
 
 ![App Screenshot](./Repo/screenshot.png)
 
@@ -21,15 +21,13 @@ A lightweight Windows tray app that randomizes desktop wallpaper from a selected
 
 ## How to Use  
 1. **Run** `ShufflePaper.exe`  
-   - 📂 Set wallpaper folder  
+   - 📂 Set wallpaper folder (where you keep your image files)
    - ⏱️ Adjust shuffle interval *(if needed)*  
    - ▶️ Start / ⏹️ Stop shuffling  
 
 ## Download  
 📦 **[Latest Release](https://github.com/mbarosendal/ShufflePaper/releases)** (Windows x64)  
 - **Size:** ~400 KB *(requires [.NET 6 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0))*  
-
----
 
 ## License  
 📄 **MIT License** – Free to use and modify.  
