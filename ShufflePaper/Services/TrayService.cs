@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace ShufflePaper
 {
@@ -16,7 +17,7 @@ namespace ShufflePaper
         {
             _notifyIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application,
+                Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ShufflePaper.Assets.app.ico")),
                 Text = "ShufflePaper",
                 Visible = true
             };

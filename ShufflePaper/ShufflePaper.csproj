@@ -9,7 +9,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <SelfContained>true</SelfContained>
+    <SelfContained>false</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
@@ -29,4 +29,14 @@
     </None>
   </ItemGroup>
 
+  <PropertyGroup>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\app.ico">
+      <LogicalName>ShufflePaper.Assets.app.ico</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>  
+  
 </Project>
