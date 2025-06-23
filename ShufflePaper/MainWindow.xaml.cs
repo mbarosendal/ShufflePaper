@@ -22,6 +22,7 @@ namespace ShufflePaper
         private readonly TrayService _trayService = new();
         private string? _selectedFolder;
         private int _intervalSeconds = 60;
+        private bool _startWithWindows;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -55,10 +56,12 @@ namespace ShufflePaper
         {
             InitializeComponent();
             DataContext = this;
+            StartWithWindows = AutoStartService.IsEnabled();
 
             // Persisted values from Settings.settings
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
+
             _timerService.Tick += (s, e) => SetRandomWallpaper();
 
             _trayService.ShowRequested += (_, _) =>
@@ -125,6 +128,18 @@ namespace ShufflePaper
             _timerService.Toggle();
             OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
+
+        public bool StartWithWindows
+        {
+            get => _startWithWindows;
+            set
+            {
+                _startWithWindows = value;
+                if (value) AutoStartService.Enable(); else AutoStartService.Disable();
+                OnPropertyChanged();
+            }
+        }
+
 
     }
 }

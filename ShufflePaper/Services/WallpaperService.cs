@@ -15,7 +15,7 @@ namespace ShufflePaper
         private const int SPIF_UPDATEINIFILE = 0x01;
         private const int SPIF_SENDWININICHANGE = 0x02;
 
-        public string GetRandomImagePath(string folderPath)
+        public string? GetRandomImagePath(string folderPath)
         {
             var supported = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
             var files = Directory.GetFiles(folderPath)

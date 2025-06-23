@@ -19,12 +19,27 @@
             Content="Choose Folder" />
         <Button Click="SetWallpaper_Click" Content="Set Random Wallpaper" />
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
-            <TextBlock Text="Interval (s):" VerticalAlignment="Center" Margin="0,0,5,0"/>
+        <StackPanel
+            Margin="0,5"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"
+                Text="Interval (s):" />
             <TextBox Width="50" Text="{Binding IntervalSeconds}" />
         </StackPanel>
 
-        <Button Content="{Binding ToggleTimerButtonText}" Click="ToggleTimer_Click" Margin="0,5"/>
+        <Button
+            Margin="0,5"
+            Click="ToggleTimer_Click"
+            Content="{Binding ToggleTimerButtonText}" />
+
+        <CheckBox
+            Margin="5"
+            Content="Start with Windows"
+            IsChecked="{Binding StartWithWindows}" />
+
 
     </StackPanel>
 </Window>
