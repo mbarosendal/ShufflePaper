@@ -18,10 +18,9 @@ namespace ShufflePaper
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private readonly WallpaperService _wallpaperService = new();
-        private DispatcherTimer _timer = new();
+        private readonly TimerService _timerService = new();
         private string? _selectedFolder;
         private int _intervalSeconds = 60;
-        private bool _timerRunning = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -49,7 +48,7 @@ namespace ShufflePaper
             }
         }
 
-        public string ToggleTimerButtonText => _timerRunning ? "Stop Auto" : "Start Auto";
+        public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
 
         public MainWindow()
         {
@@ -59,13 +58,13 @@ namespace ShufflePaper
             // Persisted values from Settings.settings
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
-            _timer.Tick += (s, e) => SetRandomWallpaper();
+            _timerService.Tick += (s, e) => SetRandomWallpaper();
         }
 
         private void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            if (name == nameof(_timerRunning)) OnPropertyChanged(nameof(ToggleTimerButtonText));
+            if (name == nameof(_timerService.IsRunning)) OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
 
         private void SelectFolder_Click(object sender, RoutedEventArgs e)
@@ -90,18 +89,10 @@ namespace ShufflePaper
 
         private void ToggleTimer_Click(object sender, RoutedEventArgs e)
         {
-            if (_timerRunning)
-            {
-                _timer.Stop();
-            }
-            else
-            {
-                _timer.Interval = TimeSpan.FromSeconds(IntervalSeconds);
-                _timer.Start();
-            }
-
-            _timerRunning = !_timerRunning;
-            OnPropertyChanged(nameof(_timerRunning));
+            _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
+            _timerService.Toggle();
+            OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
+
     }
 }
