@@ -19,6 +19,7 @@ namespace ShufflePaper
     {
         private readonly WallpaperService _wallpaperService = new();
         private readonly TimerService _timerService = new();
+        private readonly TrayService _trayService = new();
         private string? _selectedFolder;
         private int _intervalSeconds = 60;
 
@@ -59,12 +60,43 @@ namespace ShufflePaper
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             _timerService.Tick += (s, e) => SetRandomWallpaper();
+
+            _trayService.ShowRequested += (_, _) =>
+            {
+                Show();
+                WindowState = WindowState.Normal;
+                Activate();
+            };
+
+            _trayService.ExitRequested += (_, _) =>
+            {
+                _trayService.Dispose();
+                Close();
+            };
+
         }
 
         private void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             if (name == nameof(_timerService.IsRunning)) OnPropertyChanged(nameof(ToggleTimerButtonText));
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            base.OnStateChanged(e);
+
+            if (WindowState == WindowState.Minimized)
+            {
+                Hide();
+                _trayService.ShowBalloon("ShufflePaper", "Running in system tray");
+            }
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            _trayService.Dispose();
+            base.OnClosing(e);
         }
 
         private void SelectFolder_Click(object sender, RoutedEventArgs e)
