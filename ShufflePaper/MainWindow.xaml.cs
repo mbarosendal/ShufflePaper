@@ -9,45 +9,84 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Threading;
 
 namespace ShufflePaper
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private string _selectedFolder;
         private readonly WallpaperService _wallpaperService = new();
+        private DispatcherTimer _timer = new();
+        private string? _selectedFolder;
+        private int _intervalSeconds = 60;
+        private bool _timerRunning = false;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string? SelectedFolder
+        {
+            get => _selectedFolder;
+            set { _selectedFolder = value; OnPropertyChanged(); }
+        }
+
+        public int IntervalSeconds
+        {
+            get => _intervalSeconds;
+            set { _intervalSeconds = value; OnPropertyChanged(); }
+        }
+
+        public string ToggleTimerButtonText => _timerRunning ? "Stop Auto" : "Start Auto";
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+
+            _timer.Tick += (s, e) => SetRandomWallpaper();
         }
 
-        private void ChooseFolder_Click(object sender, RoutedEventArgs e)
+        private void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            if (name == nameof(_timerRunning)) OnPropertyChanged(nameof(ToggleTimerButtonText));
+        }
+
+        private void SelectFolder_Click(object sender, RoutedEventArgs e)
         {
             using var dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _selectedFolder = dialog.SelectedPath;
-                FolderPathText.Text = _selectedFolder;
+                SelectedFolder = dialog.SelectedPath;
             }
         }
 
-        private void SetRandomWallpaper_Click(object sender, RoutedEventArgs e)
+        private void SetWallpaper_Click(object sender, RoutedEventArgs e) => SetRandomWallpaper();
+
+        private void SetRandomWallpaper()
         {
-            if (string.IsNullOrEmpty(_selectedFolder))
+            if (string.IsNullOrWhiteSpace(SelectedFolder)) return;
+
+            var file = _wallpaperService.GetRandomImagePath(SelectedFolder);
+            if (!string.IsNullOrEmpty(file))
+                _wallpaperService.SetWallpaper(file);
+        }
+
+        private void ToggleTimer_Click(object sender, RoutedEventArgs e)
+        {
+            if (_timerRunning)
             {
-                System.Windows.MessageBox.Show("Please select a folder first.");
-                return;
+                _timer.Stop();
+            }
+            else
+            {
+                _timer.Interval = TimeSpan.FromSeconds(IntervalSeconds);
+                _timer.Start();
             }
 
-            var imagePath = _wallpaperService.GetRandomImagePath(_selectedFolder);
-            if (imagePath == null)
-            {
-                System.Windows.MessageBox.Show("No valid images found in folder.");
-                return;
-            }
-
-            _wallpaperService.SetWallpaper(imagePath);
+            _timerRunning = !_timerRunning;
+            OnPropertyChanged(nameof(_timerRunning));
         }
     }
 }

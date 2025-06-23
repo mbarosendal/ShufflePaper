@@ -24,8 +24,7 @@ namespace ShufflePaper
             if (files.Length == 0)
                 return null;
 
-            var rand = new Random();
-            return files[rand.Next(files.Length)];
+            return files[new Random().Next(files.Length)];
         }
 
         public void SetWallpaper(string filePath)

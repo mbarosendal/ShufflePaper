@@ -15,8 +15,16 @@
 
         <Button
             Margin="0,10"
-            Click="ChooseFolder_Click"
+            Click="SelectFolder_Click"
             Content="Choose Folder" />
-        <Button Click="SetRandomWallpaper_Click" Content="Set Random Wallpaper" />
+        <Button Click="SetWallpaper_Click" Content="Set Random Wallpaper" />
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,5">
+            <TextBlock Text="Interval (s):" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox Width="50" Text="{Binding IntervalSeconds}" />
+        </StackPanel>
+
+        <Button Content="{Binding ToggleTimerButtonText}" Click="ToggleTimer_Click" Margin="0,5"/>
+
     </StackPanel>
 </Window>
