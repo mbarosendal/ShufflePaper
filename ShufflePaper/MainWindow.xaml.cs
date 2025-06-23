@@ -28,13 +28,25 @@ namespace ShufflePaper
         public string? SelectedFolder
         {
             get => _selectedFolder;
-            set { _selectedFolder = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedFolder = value;
+                Properties.Settings.Default.FolderPath = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
         }
 
         public int IntervalSeconds
         {
             get => _intervalSeconds;
-            set { _intervalSeconds = value; OnPropertyChanged(); }
+            set
+            {
+                _intervalSeconds = value;
+                Properties.Settings.Default.IntervalSeconds = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
         }
 
         public string ToggleTimerButtonText => _timerRunning ? "Stop Auto" : "Start Auto";
@@ -44,6 +56,9 @@ namespace ShufflePaper
             InitializeComponent();
             DataContext = this;
 
+            // Persisted values from Settings.settings
+            SelectedFolder = Properties.Settings.Default.FolderPath;
+            IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             _timer.Tick += (s, e) => SetRandomWallpaper();
         }
 
