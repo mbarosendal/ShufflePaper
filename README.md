@@ -1,6 +1,6 @@
 # ShufflePaper  
 
-A lightweight Windows tray app that randomizes desktop wallpaper from a selected folder. Nothing special, I just couldn't find an app that did exactly what I needed.  
+A lightweight Windows tray app that randomizes desktop wallpaper from images in a selected folder. Nothing special, I just couldn't find an app that did exactly what I needed.  
 
 ![App Screenshot](./Repo/screenshot.png)
 
