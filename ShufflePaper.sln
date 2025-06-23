@@ -5,11 +5,6 @@ VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShufflePaper", "ShufflePaper\ShufflePaper.csproj", "{AAD9FAEB-FD5E-44C6-949A-F4DD0F3DBDEC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{83BD1A81-D4F4-4961-BDF1-C017A38ABB46}"
-	ProjectSection(SolutionItems) = preProject
-		WallpaperService.cs = WallpaperService.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
