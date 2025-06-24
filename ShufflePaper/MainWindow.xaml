@@ -168,11 +168,19 @@
                         Foreground="#6B7280"
                         Text="{Binding SelectedFolder, FallbackValue='None'}"
                         TextWrapping="Wrap" />
-                    <Button
-                        HorizontalAlignment="Left"
-                        Click="SelectFolder_Click"
-                        Content="Choose Folder"
-                        Style="{StaticResource SecondaryButton}" />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Left"
+                            Click="SelectFolder_Click"
+                            Content="Choose"
+                            Style="{StaticResource SecondaryButton}" />
+                        <Button
+                            HorizontalAlignment="Right"
+                            Click="OpenFolder_Click"
+                            Content="Open"
+                            Style="{StaticResource SecondaryButton}" />
+                    </StackPanel>
                 </StackPanel>
             </GroupBox>
 

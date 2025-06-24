@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using System.Diagnostics;
+using System.IO;
 
 namespace ShufflePaper
 {
@@ -143,6 +145,14 @@ namespace ShufflePaper
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 SelectedFolder = dialog.SelectedPath;
+            }
+        }
+
+        private void OpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(SelectedFolder) && Directory.Exists(SelectedFolder))
+            {
+                Process.Start("explorer.exe", SelectedFolder);
             }
         }
 
