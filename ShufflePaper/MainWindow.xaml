@@ -9,7 +9,7 @@
     ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <!--  Minimal modern button style  -->
+        <!--  Button style  -->
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Background" Value="#4ECDC4" />
             <Setter Property="Foreground" Value="White" />
@@ -36,7 +36,7 @@
             </Setter>
         </Style>
 
-        <!--  Modern button with complementary orange color  -->
+        <!--  Primary button style  -->
         <Style x:Key="ModernButtonOrange" TargetType="Button">
             <Setter Property="Background" Value="#FF7043" />
             <Setter Property="Foreground" Value="White" />
@@ -63,7 +63,7 @@
             </Setter>
         </Style>
 
-        <!--  Clean secondary button  -->
+        <!--  Secondary button style  -->
         <Style x:Key="SecondaryButton" TargetType="Button">
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="#D1D5DB" />
@@ -126,7 +126,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!--  Header with icon  -->
+        <!--  Header  -->
         <StackPanel
             Grid.Row="0"
             Margin="0,0,0,16"
@@ -144,7 +144,7 @@
                 Text="ShufflePaper" />
         </StackPanel>
 
-        <!--  Top row with Folder Selection and System Settings side by side  -->
+        <!--  Top row with Folder Selection and System Settings  -->
         <Grid Grid.Row="1" Margin="0,0,0,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -152,7 +152,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!--  Folder Selection  -->
+            <!--  Folder actions  -->
             <GroupBox
                 Grid.Column="0"
                 Padding="12"
@@ -183,6 +183,7 @@
                 Header="System Settings">
                 <StackPanel>
                     <CheckBox Content="Start with Windows" IsChecked="{Binding StartWithWindows}" />
+                    <CheckBox Content="Start on Auto" IsChecked="{Binding StartOnAuto}" />
                 </StackPanel>
             </GroupBox>
         </Grid>
@@ -200,7 +201,7 @@
                     Content="Set Random Wallpaper"
                     Style="{StaticResource ModernButton}" />
 
-                <!--  Timer control row  -->
+                <!--  Timer control  -->
                 <Grid Margin="0,0,0,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

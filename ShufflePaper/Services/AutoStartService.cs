@@ -9,7 +9,7 @@ namespace ShufflePaper
         public static void Enable()
         {
             using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-            var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var exePath = Environment.ProcessPath ?? System.Reflection.Assembly.GetExecutingAssembly().Location;
             key?.SetValue(AppName, $"\"{exePath}\"");
         }
 

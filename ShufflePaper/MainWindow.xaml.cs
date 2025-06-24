@@ -23,6 +23,7 @@ namespace ShufflePaper
         private string? _selectedFolder;
         private int _intervalSeconds = 60;
         private bool _startWithWindows;
+        private bool _startOnAuto;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -52,15 +53,50 @@ namespace ShufflePaper
 
         public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
 
+        public bool StartWithWindows
+        {
+            get => _startWithWindows;
+            set
+            {
+                _startWithWindows = value;
+                if (value) AutoStartService.Enable(); else AutoStartService.Disable();
+                OnPropertyChanged();
+            }
+        }
+
+        public bool StartOnAuto
+        {
+            get => _startOnAuto;
+            set
+            {
+                _startOnAuto = value;
+                Properties.Settings.Default.StartOnAuto = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
-            StartWithWindows = AutoStartService.IsEnabled();
 
-            // Persisted values from Settings.settings
+            // Load persisted values from Settings.settings
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
+            StartOnAuto = Properties.Settings.Default.StartOnAuto;
+
+            StartWithWindows = AutoStartService.IsEnabled();
+
+            if (Environment.GetCommandLineArgs().Contains("--startup"))
+            {
+                WindowState = WindowState.Minimized;
+            }
+
+            if (StartOnAuto)
+            {
+                ToggleTimer_Click(null, null);
+            }
 
             _timerService.Tick += (s, e) => SetRandomWallpaper();
 
@@ -76,7 +112,6 @@ namespace ShufflePaper
                 _trayService.Dispose();
                 Close();
             };
-
         }
 
         private void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -122,24 +157,21 @@ namespace ShufflePaper
                 _wallpaperService.SetWallpaper(file);
         }
 
-        private void ToggleTimer_Click(object sender, RoutedEventArgs e)
+        private void ToggleTimer_Click(object? sender, RoutedEventArgs? e)
         {
             _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
             _timerService.Toggle();
             OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
 
-        public bool StartWithWindows
+        private void StartTimer()
         {
-            get => _startWithWindows;
-            set
+            _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
+            if (!_timerService.IsRunning)
             {
-                _startWithWindows = value;
-                if (value) AutoStartService.Enable(); else AutoStartService.Disable();
-                OnPropertyChanged();
+                _timerService.Toggle();
+                OnPropertyChanged(nameof(ToggleTimerButtonText));
             }
         }
-
-
     }
 }

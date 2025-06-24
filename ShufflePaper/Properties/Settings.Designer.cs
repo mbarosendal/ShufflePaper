@@ -46,5 +46,17 @@ namespace ShufflePaper.Properties {
                 this["IntervalSeconds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartOnAuto {
+            get {
+                return ((bool)(this["StartOnAuto"]));
+            }
+            set {
+                this["StartOnAuto"] = value;
+            }
+        }
     }
 }
