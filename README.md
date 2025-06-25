@@ -14,10 +14,11 @@ A lightweight Windows tray app that randomizes desktop wallpaper from images in 
 
 ## Planned Features *(Open to suggestions!)*  
 - Transitions – Fade/swipe effects between wallpapers  
-- Image Preview – Quick preview before setting  
+- Image Preview – Quick preview for stretch modes
 - Multi-Monitor Support – Different wallpapers per screen  
 - File List – View all detected wallpapers in-app  
-- Ignore List – Exclude specific images from shuffling  
+- Ignore List – Exclude specific images from shuffling
+- Maybe maintaining different sets of wallpapers in-app?
 
 ## How to Use  
 1. **Run** `ShufflePaper.exe`  
