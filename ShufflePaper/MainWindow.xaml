@@ -168,6 +168,15 @@
                         Foreground="#6B7280"
                         Text="{Binding SelectedFolder, FallbackValue='None'}"
                         TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Images found:" />
+                        <TextBlock
+                            Margin="8,0,0,12"
+                            Foreground="#6B7280"
+                            Text="{Binding ImagesFound, FallbackValue='0'}" />
+                    </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button
                             Margin="0,0,8,0"
@@ -181,6 +190,7 @@
                             Content="Open"
                             Style="{StaticResource SecondaryButton}" />
                     </StackPanel>
+
                 </StackPanel>
             </GroupBox>
 

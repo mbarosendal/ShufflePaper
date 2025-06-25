@@ -27,6 +27,8 @@ namespace ShufflePaper
         private bool _startWithWindows;
         private bool _startOnAuto;
 
+        public int ImagesFound => _wallpaperService.ImagesFound;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public string? SelectedFolder
@@ -88,6 +90,8 @@ namespace ShufflePaper
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             StartOnAuto = Properties.Settings.Default.StartOnAuto;
 
+            UpdateImagesFound();
+
             StartWithWindows = AutoStartService.IsEnabled();
 
             if (Environment.GetCommandLineArgs().Contains("--startup"))
@@ -146,6 +150,8 @@ namespace ShufflePaper
             {
                 SelectedFolder = dialog.SelectedPath;
             }
+
+            UpdateImagesFound();
         }
 
         private void OpenFolder_Click(object sender, RoutedEventArgs e)
@@ -153,6 +159,14 @@ namespace ShufflePaper
             if (!string.IsNullOrEmpty(SelectedFolder) && Directory.Exists(SelectedFolder))
             {
                 Process.Start("explorer.exe", SelectedFolder);
+            }
+        }
+        private void UpdateImagesFound()
+        {
+            if (!string.IsNullOrEmpty(SelectedFolder))
+            {
+                _wallpaperService.UpdateImageCount(SelectedFolder);
+                OnPropertyChanged(nameof(ImagesFound));
             }
         }
 
@@ -164,7 +178,7 @@ namespace ShufflePaper
 
             var file = _wallpaperService.GetRandomImagePath(SelectedFolder);
             if (!string.IsNullOrEmpty(file))
-                _wallpaperService.SetWallpaper(file);
+                _wallpaperService.SetAsWallpaper(file);
         }
 
         private void ToggleTimer_Click(object? sender, RoutedEventArgs? e)
