@@ -4,15 +4,15 @@ A lightweight Windows tray app that randomizes desktop wallpaper from images in 
 
 ![App Screenshot](./Repo/screenshot.png)
 
-⚠️ **Note:** Should be stable, but not optimized for multiple monitors yet. Very much a work in progress.  
+⚠️ **Note:** Should be stable enough, but not optimized yet. I'm still learning, very much a work in progress.  
 
 ## ✅ Features  
 - **Minimalist** – Runs quietly in the system tray  
 - **Auto-Shuffle** – Changes wallpapers at customizable intervals  
-- **Multi-Format** – Supports `.jpg`, `.png`, `.bmp`  
+- **Multi-Format** – Supports `.jpg`, `.png`, `.bmp`
+- Scaling/Stretch Modes – Fit, Stretch, Tile, etc.  
 
 ## Planned Features *(Open to suggestions!)*  
-- Scaling/Stretch Modes – Fit, Fill, Stretch, Tile, etc.  
 - Transitions – Fade/swipe effects between wallpapers  
 - Image Preview – Quick preview before setting  
 - Multi-Monitor Support – Different wallpapers per screen  
