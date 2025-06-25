@@ -24,6 +24,7 @@ namespace ShufflePaper
         private readonly TrayService _trayService = new();
         private string? _selectedFolder;
         private int _intervalSeconds = 60;
+        private WallpaperStyle _wallpaperStyle;
         private bool _startWithWindows;
         private bool _startOnAuto;
 
@@ -57,6 +58,22 @@ namespace ShufflePaper
 
         public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
 
+        public WallpaperStyle WallpaperStyle
+        {
+            get => _wallpaperStyle;
+            set
+            {
+                if (_wallpaperStyle != value)
+                {
+                    _wallpaperStyle = value;
+                    WallpaperService.SetWallpaperStyle(_wallpaperStyle.ToString());
+                    Properties.Settings.Default.WallpaperStyle = _wallpaperStyle.ToString();
+                    Properties.Settings.Default.Save();
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool StartWithWindows
         {
             get => _startWithWindows;
@@ -89,6 +106,15 @@ namespace ShufflePaper
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             StartOnAuto = Properties.Settings.Default.StartOnAuto;
+
+            if (Enum.TryParse<WallpaperStyle>(Properties.Settings.Default.WallpaperStyle, true, out var style))
+            {
+                _wallpaperStyle = style;
+            }
+            else
+            {
+                _wallpaperStyle = WallpaperStyle.Fill; // Default value
+            }
 
             UpdateImagesFound();
 

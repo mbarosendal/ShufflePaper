@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,7 +9,6 @@ namespace ShufflePaper
 {
     public class WallpaperService
     {
-        // DllImport lets you call native Windows functions from C#.
         [DllImport("user32.dll", SetLastError = true)]
         private static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
@@ -50,6 +50,41 @@ namespace ShufflePaper
         {
             SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filePath,
                 SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+        }
+
+        public static void SetWallpaperStyle(string style)
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+
+            switch (style.ToLower())
+            {
+                case "fill":
+                    key?.SetValue("WallpaperStyle", "10");
+                    key?.SetValue("TileWallpaper", "0");
+                    break;
+                case "fit":
+                    key?.SetValue("WallpaperStyle", "6");
+                    key?.SetValue("TileWallpaper", "0");
+                    break;
+                case "stretch":
+                    key?.SetValue("WallpaperStyle", "2");
+                    key?.SetValue("TileWallpaper", "0");
+                    break;
+                case "tile":
+                    key?.SetValue("WallpaperStyle", "0");
+                    key?.SetValue("TileWallpaper", "1");
+                    break;
+                case "center":
+                    key?.SetValue("WallpaperStyle", "0");
+                    key?.SetValue("TileWallpaper", "0");
+                    break;
+                case "span":
+                    key?.SetValue("WallpaperStyle", "22");
+                    key?.SetValue("TileWallpaper", "0");
+                    break;
+                default:
+                    throw new ArgumentException("Unknown wallpaper style: " + style);
+            }
         }
     }
 }

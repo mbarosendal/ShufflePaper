@@ -58,5 +58,17 @@ namespace ShufflePaper.Properties {
                 this["StartOnAuto"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WallpaperStyle {
+            get {
+                return ((string)(this["WallpaperStyle"]));
+            }
+            set {
+                this["WallpaperStyle"] = value;
+            }
+        }
     }
 }
