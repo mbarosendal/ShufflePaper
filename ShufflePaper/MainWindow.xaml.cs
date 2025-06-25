@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Controls.Primitives;
 
 namespace ShufflePaper
 {
@@ -29,6 +30,7 @@ namespace ShufflePaper
         private bool _startOnAuto;
 
         public int ImagesFound => _wallpaperService.ImagesFound;
+        public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -55,8 +57,6 @@ namespace ShufflePaper
                 OnPropertyChanged();
             }
         }
-
-        public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
 
         public WallpaperStyle WallpaperStyle
         {
@@ -113,11 +113,12 @@ namespace ShufflePaper
             }
             else
             {
-                _wallpaperStyle = WallpaperStyle.Fill; // Default value
+                _wallpaperStyle = WallpaperStyle.Fill;
             }
 
             UpdateImagesFound();
-
+            InitializeStyleButtons();
+            
             StartWithWindows = AutoStartService.IsEnabled();
 
             if (Environment.GetCommandLineArgs().Contains("--startup"))
@@ -223,5 +224,47 @@ namespace ShufflePaper
                 OnPropertyChanged(nameof(ToggleTimerButtonText));
             }
         }
+
+        private void StyleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton clickedButton && clickedButton.Tag is string styleTag)
+            {
+                CenterBtn.IsChecked = false;
+                TileBtn.IsChecked = false;
+                StretchBtn.IsChecked = false;
+                FitBtn.IsChecked = false;
+                FillBtn.IsChecked = false;
+
+                clickedButton.IsChecked = true;
+
+                if (Enum.TryParse<WallpaperStyle>(styleTag, true, out var style))
+                {
+                    WallpaperStyle = style;
+                }
+            }
+        }
+
+        private void InitializeStyleButtons()
+        {
+            switch (_wallpaperStyle)
+            {
+                case WallpaperStyle.Center:
+                    CenterBtn.IsChecked = true;
+                    break;
+                case WallpaperStyle.Tile:
+                    TileBtn.IsChecked = true;
+                    break;
+                case WallpaperStyle.Stretch:
+                    StretchBtn.IsChecked = true;
+                    break;
+                case WallpaperStyle.Fit:
+                    FitBtn.IsChecked = true;
+                    break;
+                case WallpaperStyle.Fill:
+                    FillBtn.IsChecked = true;
+                    break;
+            }
+        }
+
     }
 }
