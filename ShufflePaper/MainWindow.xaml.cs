@@ -28,6 +28,7 @@ namespace ShufflePaper
         private bool _startOnAuto;
 
         public int ImagesFound => _wallpaperService.ImagesFound;
+        public int MonitorCount => _wallpaperService.MonitorCount;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -178,7 +179,7 @@ namespace ShufflePaper
 
             var file = _wallpaperService.GetRandomImagePath(SelectedFolder);
             if (!string.IsNullOrEmpty(file))
-                _wallpaperService.SetAsWallpaper(file);
+                _wallpaperService.SetSameWallpaperAll(file);
         }
 
         private void ToggleTimer_Click(object? sender, RoutedEventArgs? e)

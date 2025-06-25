@@ -2,36 +2,42 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static System.Net.WebRequestMethods;
+using ShufflePaper.Services;
 
 namespace ShufflePaper
 {
     public class WallpaperService
     {
-        // DllImport lets you call native Windows functions from C#.
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+        private readonly DesktopWallpaperManager _manager;
 
-        private const int SPI_SETDESKWALLPAPER = 20;
-        private const int SPIF_UPDATEINIFILE = 0x01;
-        private const int SPIF_SENDWININICHANGE = 0x02;
+        public WallpaperService()
+        {
+            _manager = new DesktopWallpaperManager();
+        }
+
         public int ImagesFound { get; private set; }
+        public int MonitorCount => _manager.MonitorCount;
 
         public string? GetRandomImagePath(string folderPath)
         {
-            string[] files = GetImageFiles(folderPath);
-
-            if (files.Length == 0)
-                return null;
-
-            return files[new Random().Next(files.Length)];
+            var files = GetImageFiles(folderPath);
+            return files.Length == 0 ? null : files[new Random().Next(files.Length)];
         }
 
         public void UpdateImageCount(string folderPath)
         {
-            string[] files = GetImageFiles(folderPath);
+            ImagesFound = GetImageFiles(folderPath).Length;
+            DebugMonitorInfo();
+        }
 
-            ImagesFound = files.Length;
+        public void DebugMonitorInfo()
+        {
+            if (_manager != null)
+            {
+                MessageBox.Show($"COM Status: {_manager.GetStatus()}\n" +
+                               $"Monitor Count: {_manager.MonitorCount}\n" +
+                               $"System Monitor Count: {System.Windows.Forms.Screen.AllScreens.Length}");
+            }
         }
 
         private static string[] GetImageFiles(string folderPath)
@@ -40,16 +46,31 @@ namespace ShufflePaper
                 return Array.Empty<string>();
 
             var supported = new[] { ".jpg", ".jpeg", ".png", ".bmp" };
-            var files = Directory.GetFiles(folderPath)
-                                 .Where(f => supported.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase))
-                                 .ToArray();
-            return files;
+            return Directory.GetFiles(folderPath)
+                .Where(f => supported.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase))
+                .ToArray();
         }
 
-        public void SetAsWallpaper(string filePath)
+        public void SetSameWallpaperAll(string filePath)
         {
-            SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filePath,
-                SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+            SystemParametersInfo(20, 0, filePath, 0x01 | 0x02);
         }
+
+        public void SetRandomPerMonitor(string folderPath)
+        {
+            var files = GetImageFiles(folderPath);
+            if (files.Length == 0)
+                return;
+
+            var random = new Random();
+            for (uint i = 0; i < _manager.MonitorCount; i++)
+            {
+                string randomImage = files[random.Next(files.Length)];
+                _manager.SetWallpaperForMonitor(i, randomImage);
+            }
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
     }
 }
