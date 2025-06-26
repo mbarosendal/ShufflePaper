@@ -325,6 +325,9 @@
                                     Tag="Fill" />
                             </UniformGrid>
                         </StackPanel>
+                        
+                        <ToggleButton x:Name="FadeToggle" Content="Fade Transition" IsChecked="True" Margin="10"/>
+                        
                     </StackPanel>
                 </Grid>
             </StackPanel>

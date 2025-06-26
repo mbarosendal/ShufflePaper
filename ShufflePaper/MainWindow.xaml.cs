@@ -205,8 +205,23 @@ namespace ShufflePaper
 
             var file = _wallpaperService.GetRandomImagePath(SelectedFolder);
             if (!string.IsNullOrEmpty(file))
+            {
+                if (FadeToggle.IsChecked == true)
+                {
+                    var fadeOverlay = new FadeOverlay();
+                    fadeOverlay.Show();
+                    fadeOverlay.BeginFadeOut();
+                }
                 _wallpaperService.SetAsWallpaper(file);
+
+                // Set wallpaper slightly after overlay shows
+                Dispatcher.InvokeAsync(() =>
+                {
+                    _wallpaperService.SetAsWallpaper(file);
+                }, DispatcherPriority.Background);
+            }
         }
+
 
         private void ToggleTimer_Click(object? sender, RoutedEventArgs? e)
         {
