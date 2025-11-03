@@ -32,7 +32,7 @@ A lightweight Windows tray app that randomizes desktop wallpaper from images in 
 📦 **[Latest Release](https://github.com/mbarosendal/ShufflePaper/releases)** (Windows x64)  
 - **Size:** ~400 KB *(requires [.NET 6 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0))*  
 
-OR you could also run this in the project terminal to get the .exe: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true
+OR you could also run this in the project terminal to get the .exe: `dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true`
 
 ## License  
 📄 **MIT License** – Free to use and modify.  
