@@ -26,7 +26,7 @@ A lightweight Windows tray app that randomizes desktop wallpaper from images in 
    - ⏱️ Adjust shuffle interval *(if needed)*  
    - ▶️ Start / ⏹️ Stop shuffling  
 
-
+- Left-clicking the tray icon also shuffles the wallpaper (right click the tray icon to show program, exit etc.) 
 
 ## Download  
 📦 **[Latest Release](https://github.com/mbarosendal/ShufflePaper/releases)** (Windows x64)  
