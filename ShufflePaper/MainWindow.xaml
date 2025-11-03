@@ -237,6 +237,7 @@
                 <StackPanel>
                     <CheckBox Content="Start with Windows" IsChecked="{Binding StartWithWindows}" />
                     <CheckBox Content="Start on Auto" IsChecked="{Binding StartOnAuto}" />
+                    <CheckBox Content="Close to tray" IsChecked="{Binding CloseToTray}" />
                 </StackPanel>
             </GroupBox>
         </Grid>

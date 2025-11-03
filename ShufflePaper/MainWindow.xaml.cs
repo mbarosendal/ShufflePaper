@@ -30,6 +30,18 @@ namespace ShufflePaper
         private WallpaperStyle _wallpaperStyle;
         private bool _startWithWindows;
         private bool _startOnAuto;
+        private bool _closeToTray;
+
+        public bool CloseToTray
+        {
+            get { return _closeToTray; }
+            set { 
+                _closeToTray = value;
+                Properties.Settings.Default.CloseToTray = value;
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
 
         public int ImagesFound => _wallpaperService.ImagesFound;
         public string ToggleTimerButtonText => _timerService.IsRunning ? "Stop Auto" : "Start Auto";
@@ -108,6 +120,7 @@ namespace ShufflePaper
             SelectedFolder = Properties.Settings.Default.FolderPath;
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             StartOnAuto = Properties.Settings.Default.StartOnAuto;
+            CloseToTray = Properties.Settings.Default.CloseToTray;
 
             if (Enum.TryParse<WallpaperStyle>(Properties.Settings.Default.WallpaperStyle, true, out var style))
             {
@@ -170,9 +183,19 @@ namespace ShufflePaper
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            _trayService.Dispose();
-            base.OnClosing(e);
+            if (CloseToTray) // from persisted Settings
+            {
+                e.Cancel = true; // cancel the close
+                Hide();          // hide the window instead to tray
+                _trayService.ShowBalloon("ShufflePaper", "Still running in system tray");
+            }
+            else
+            {
+                _trayService.Dispose(); // actually exit
+                base.OnClosing(e);
+            }
         }
+
 
         private void SelectFolder_Click(object sender, RoutedEventArgs e)
         {
