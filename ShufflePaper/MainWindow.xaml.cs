@@ -20,6 +20,8 @@ namespace ShufflePaper
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        // To publish standalone .exe: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+
         private readonly WallpaperService _wallpaperService = new();
         private readonly TimerService _timerService = new();
         private readonly TrayService _trayService = new();
@@ -133,6 +135,8 @@ namespace ShufflePaper
 
             _timerService.Tick += (s, e) => SetRandomWallpaper();
 
+            _trayService.LeftClickRequested += (_, _) => SetRandomWallpaper();
+
             _trayService.ShowRequested += (_, _) =>
             {
                 Show();
@@ -201,6 +205,7 @@ namespace ShufflePaper
 
         private void SetRandomWallpaper()
         {
+            Console.WriteLine("Setting random wallpaper");
             if (string.IsNullOrWhiteSpace(SelectedFolder)) return;
 
             var file = _wallpaperService.GetRandomImagePath(SelectedFolder);
@@ -215,15 +220,15 @@ namespace ShufflePaper
             OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
 
-        private void StartTimer()
-        {
-            _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
-            if (!_timerService.IsRunning)
-            {
-                _timerService.Toggle();
-                OnPropertyChanged(nameof(ToggleTimerButtonText));
-            }
-        }
+        //private void StartTimer()
+        //{
+        //    _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
+        //    if (!_timerService.IsRunning)
+        //    {
+        //        _timerService.Toggle();
+        //        OnPropertyChanged(nameof(ToggleTimerButtonText));
+        //    }
+        //}
 
         private void StyleButton_Click(object sender, RoutedEventArgs e)
         {
