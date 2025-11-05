@@ -2,7 +2,7 @@
 
 A lightweight Windows tray app that randomizes desktop wallpaper from images in a selected folder. Nothing special, I just couldn't find an app that did exactly what I needed.  
 
-![App Screenshot](./Repo/screenshot.png)
+![App Screenshot](./Repo/screenshot2.png)
 
 ⚠️ **Note:** Should be stable enough, but not optimized yet. I'm still learning, very much a work in progress.  
 
@@ -26,9 +26,13 @@ A lightweight Windows tray app that randomizes desktop wallpaper from images in 
    - ⏱️ Adjust shuffle interval *(if needed)*  
    - ▶️ Start / ⏹️ Stop shuffling  
 
+- Left-clicking the tray icon also shuffles the wallpaper (right click the tray icon to show program, exit etc.) 
+
 ## Download  
 📦 **[Latest Release](https://github.com/mbarosendal/ShufflePaper/releases)** (Windows x64)  
 - **Size:** ~400 KB *(requires [.NET 6 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/6.0))*  
+
+If releases aren't updated (they may not be :) you could also run this in the project terminal to get the latest .exe: `dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true`
 
 ## License  
 📄 **MIT License** – Free to use and modify.  
