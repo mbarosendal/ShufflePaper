@@ -31,6 +31,19 @@ namespace ShufflePaper
         private bool _startWithWindows;
         private bool _startOnAuto;
         private bool _closeToTray;
+        private bool _startMinimized;
+
+        public bool StartMinimized
+        {
+            get { return _startMinimized; }
+            set 
+            { 
+                _startMinimized = value;
+                Properties.Settings.Default.StartMinimized = value; // fix this line
+                Properties.Settings.Default.Save();
+                OnPropertyChanged();
+            }
+        }
 
         public bool CloseToTray
         {
@@ -121,6 +134,14 @@ namespace ShufflePaper
             IntervalSeconds = Properties.Settings.Default.IntervalSeconds;
             StartOnAuto = Properties.Settings.Default.StartOnAuto;
             CloseToTray = Properties.Settings.Default.CloseToTray;
+            StartMinimized = Properties.Settings.Default.StartMinimized;
+
+            if (StartMinimized)
+            {
+                WindowState = WindowState.Minimized;
+                Hide();
+                _trayService.ShowBalloon("ShufflePaper", "Running in system tray");
+            }
 
             if (Enum.TryParse<WallpaperStyle>(Properties.Settings.Default.WallpaperStyle, true, out var style))
             {
@@ -215,6 +236,7 @@ namespace ShufflePaper
                 Process.Start("explorer.exe", SelectedFolder);
             }
         }
+
         private void UpdateImagesFound()
         {
             if (!string.IsNullOrEmpty(SelectedFolder))

@@ -236,8 +236,9 @@
                 Header="System Settings">
                 <StackPanel>
                     <CheckBox Content="Start with Windows" IsChecked="{Binding StartWithWindows}" />
+                    <CheckBox Content="Start Minimized" IsChecked="{Binding StartMinimized}" />
                     <CheckBox Content="Start on Auto" IsChecked="{Binding StartOnAuto}" />
-                    <CheckBox Content="Close to tray" IsChecked="{Binding CloseToTray}" />
+                    <CheckBox Content="Close to Tray" IsChecked="{Binding CloseToTray}" />
                 </StackPanel>
             </GroupBox>
         </Grid>
