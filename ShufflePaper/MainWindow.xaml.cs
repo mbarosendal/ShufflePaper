@@ -215,15 +215,15 @@ namespace ShufflePaper
             OnPropertyChanged(nameof(ToggleTimerButtonText));
         }
 
-        private void StartTimer()
-        {
-            _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
-            if (!_timerService.IsRunning)
-            {
-                _timerService.Toggle();
-                OnPropertyChanged(nameof(ToggleTimerButtonText));
-            }
-        }
+        //private void StartTimer()
+        //{
+        //    _timerService.Interval = TimeSpan.FromSeconds(IntervalSeconds);
+        //    if (!_timerService.IsRunning)
+        //    {
+        //        _timerService.Toggle();
+        //        OnPropertyChanged(nameof(ToggleTimerButtonText));
+        //    }
+        //}
 
         private void StyleButton_Click(object sender, RoutedEventArgs e)
         {
